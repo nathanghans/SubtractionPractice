@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subtraction Stars ⭐</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Screen 1: Welcome / Difficulty Picker -->
+  <div id="screen-welcome" class="screen active">
+    <div class="card">
+      <div class="logo">⭐ Subtraction Stars ⭐</div>
+      <p class="subtitle">Choose your challenge level!</p>
+      <div class="difficulty-grid">
+        <button class="diff-btn easy" onclick="startGame('easy')">
+          <span class="diff-icon">🌸</span>
+          <span class="diff-name">Easy</span>
+          <span class="diff-desc">Numbers up to 10</span>
+        </button>
+        <button class="diff-btn medium" onclick="startGame('medium')">
+          <span class="diff-icon">🌺</span>
+          <span class="diff-name">Medium</span>
+          <span class="diff-desc">Numbers up to 50</span>
+        </button>
+        <button class="diff-btn hard" onclick="startGame('hard')">
+          <span class="diff-icon">🌟</span>
+          <span class="diff-name">Hard</span>
+          <span class="diff-desc">Numbers up to 100</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 2: Practice -->
+  <div id="screen-game" class="screen">
+    <div class="card game-card">
+      <div class="game-header">
+        <button class="back-btn" onclick="goHome()">← Home</button>
+        <div class="score-box">
+          <span id="score-display">⭐ 0</span>
+          <span id="streak-display" class="streak hidden">🔥 0</span>
+        </div>
+        <div class="progress-wrap">
+          <div id="progress-bar"></div>
+        </div>
+      </div>
+
+      <div class="question-count">Question <span id="q-num">1</span> of 10</div>
+
+      <div class="problem-area">
+        <div class="number top-number" id="num-a"></div>
+        <div class="operator">−</div>
+        <div class="number bottom-number" id="num-b"></div>
+        <div class="line"></div>
+      </div>
+
+      <input
+        id="answer-input"
+        type="number"
+        inputmode="numeric"
+        placeholder="?"
+        autocomplete="off"
+        onkeydown="handleKey(event)"
+      />
+
+      <button class="submit-btn" id="submit-btn" onclick="checkAnswer()">Check ✓</button>
+
+      <div id="feedback" class="feedback hidden"></div>
+    </div>
+  </div>
+
+  <!-- Screen 3: Results -->
+  <div id="screen-results" class="screen">
+    <div class="card results-card">
+      <div id="result-emoji" class="result-emoji"></div>
+      <h2 id="result-title" class="result-title"></h2>
+      <p id="result-msg" class="result-msg"></p>
+      <div class="result-score">
+        <span id="final-score"></span>
+        <span class="out-of"> / 10</span>
+      </div>
+      <div class="result-actions">
+        <button class="play-again-btn" onclick="playAgain()">Play Again 🔄</button>
+        <button class="home-btn" onclick="goHome()">Change Level 🏠</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
