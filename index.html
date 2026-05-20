@@ -13,20 +13,40 @@
       <div class="logo">⭐ Subtraction Stars ⭐</div>
       <p class="subtitle">Choose your challenge level!</p>
       <div class="difficulty-grid">
-        <button class="diff-btn easy" onclick="startGame('easy')">
+        <button class="diff-btn lvl1" onclick="startGame('tiny')">
+          <span class="diff-icon">🌼</span>
+          <span class="diff-info">
+            <span class="diff-name">Tiny</span>
+            <span class="diff-desc">Numbers less than 5</span>
+          </span>
+        </button>
+        <button class="diff-btn lvl2" onclick="startGame('easy')">
           <span class="diff-icon">🌸</span>
-          <span class="diff-name">Easy</span>
-          <span class="diff-desc">Numbers up to 10</span>
+          <span class="diff-info">
+            <span class="diff-name">Easy</span>
+            <span class="diff-desc">Numbers 5 – 10</span>
+          </span>
         </button>
-        <button class="diff-btn medium" onclick="startGame('medium')">
+        <button class="diff-btn lvl3" onclick="startGame('medium')">
           <span class="diff-icon">🌺</span>
-          <span class="diff-name">Medium</span>
-          <span class="diff-desc">Numbers up to 50</span>
+          <span class="diff-info">
+            <span class="diff-name">Medium</span>
+            <span class="diff-desc">Numbers 10 – 20</span>
+          </span>
         </button>
-        <button class="diff-btn hard" onclick="startGame('hard')">
+        <button class="diff-btn lvl4" onclick="startGame('regroup')">
+          <span class="diff-icon">🎯</span>
+          <span class="diff-info">
+            <span class="diff-name">Regrouping</span>
+            <span class="diff-desc">Borrowing practice</span>
+          </span>
+        </button>
+        <button class="diff-btn lvl5" onclick="startGame('challenge')">
           <span class="diff-icon">🌟</span>
-          <span class="diff-name">Hard</span>
-          <span class="diff-desc">Numbers up to 100</span>
+          <span class="diff-info">
+            <span class="diff-name">Challenge</span>
+            <span class="diff-desc">Big numbers!</span>
+          </span>
         </button>
       </div>
     </div>

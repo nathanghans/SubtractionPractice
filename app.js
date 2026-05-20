@@ -2,9 +2,11 @@
 
 // ── Config ──────────────────────────────────────────────────────────────────
 const DIFFICULTY = {
-  easy:   { max: 10,  label: 'Easy' },
-  medium: { max: 50,  label: 'Medium' },
-  hard:   { max: 100, label: 'Hard' },
+  tiny:      { label: 'Tiny',       type: 'range',    min: 1,  max: 4   },
+  easy:      { label: 'Easy',       type: 'range',    min: 5,  max: 10  },
+  medium:    { label: 'Medium',     type: 'range',    min: 10, max: 20  },
+  regroup:   { label: 'Regrouping', type: 'regroup'                      },
+  challenge: { label: 'Challenge',  type: 'range',    min: 50, max: 500 },
 };
 
 const TOTAL_QUESTIONS = 10;
@@ -37,13 +39,34 @@ function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+// Generates a question that requires regrouping (borrowing):
+// the ones digit of `a` is less than the ones digit of `b`,
+// but `a` > `b` overall (answer is positive).
+function makeRegroupingQuestion() {
+  while (true) {
+    const tensA = randInt(2, 9);
+    const onesA = randInt(0, 8);          // leave room for onesB to exceed it
+    const a = tensA * 10 + onesA;
+
+    const onesB = randInt(onesA + 1, 9); // ones of b > ones of a → must borrow
+    const tensB = randInt(1, tensA - 1); // tens of b < tens of a → answer stays positive
+    const b = tensB * 10 + onesB;
+
+    if (b > 0 && b < a) return { a, b, answer: a - b };
+  }
+}
+
 function generateQuestions(difficulty) {
-  const { max } = DIFFICULTY[difficulty];
-  const qs = [];
+  const cfg = DIFFICULTY[difficulty];
+  const qs  = [];
   while (qs.length < TOTAL_QUESTIONS) {
-    const a = randInt(1, max);
-    const b = randInt(0, a);           // guarantees non-negative answer
-    qs.push({ a, b, answer: a - b });
+    if (cfg.type === 'regroup') {
+      qs.push(makeRegroupingQuestion());
+    } else {
+      const a = randInt(cfg.min, cfg.max);
+      const b = randInt(0, a);
+      qs.push({ a, b, answer: a - b });
+    }
   }
   return qs;
 }
@@ -85,28 +108,24 @@ function renderQuestion() {
   }
 
   const input = document.getElementById('answer-input');
-  input.value       = '';
-  input.disabled    = false;
+  input.value        = '';
+  input.disabled     = false;
   input.style.border = '3px solid #e1bee7';
 
   const feedback = document.getElementById('feedback');
-  feedback.className = 'feedback hidden';
+  feedback.className   = 'feedback hidden';
   feedback.textContent = '';
 
   const btn = document.getElementById('submit-btn');
   btn.textContent = 'Check ✓';
-  btn.style.opacity = '1';
+  btn.onclick     = checkAnswer;
 
   setTimeout(() => input.focus(), 50);
 }
 
 function handleKey(e) {
   if (e.key === 'Enter') {
-    if (answered) {
-      nextQuestion();
-    } else {
-      checkAnswer();
-    }
+    answered ? nextQuestion() : checkAnswer();
   }
 }
 
@@ -116,35 +135,32 @@ function checkAnswer() {
   const input = document.getElementById('answer-input');
   const raw   = input.value.trim();
 
-  if (raw === '') {
-    triggerShake(input);
-    return;
-  }
+  if (raw === '') { triggerShake(input); return; }
 
   const userAnswer = parseInt(raw, 10);
   const correct    = questions[currentIndex].answer;
   const feedback   = document.getElementById('feedback');
   const btn        = document.getElementById('submit-btn');
 
-  answered    = true;
+  answered       = true;
   input.disabled = true;
 
   if (userAnswer === correct) {
     score++;
     streak++;
-    input.style.border = '3px solid #a5d6a7';
+    input.style.border   = '3px solid #a5d6a7';
     feedback.textContent = pick(CORRECT_MESSAGES);
     feedback.className   = 'feedback correct';
   } else {
     streak = 0;
-    input.style.border = '3px solid #f48fb1';
+    input.style.border   = '3px solid #f48fb1';
     feedback.textContent = `${pick(WRONG_MESSAGES)} The answer is ${correct}.`;
     feedback.className   = 'feedback wrong';
     triggerShake(input);
   }
 
-  btn.textContent  = currentIndex < TOTAL_QUESTIONS - 1 ? 'Next →' : 'See Results 🎉';
-  btn.onclick      = nextQuestion;
+  btn.textContent = currentIndex < TOTAL_QUESTIONS - 1 ? 'Next →' : 'See Results 🎉';
+  btn.onclick     = nextQuestion;
 }
 
 function nextQuestion() {
@@ -152,7 +168,6 @@ function nextQuestion() {
   if (currentIndex >= TOTAL_QUESTIONS) {
     showResults();
   } else {
-    document.getElementById('submit-btn').onclick = checkAnswer;
     renderQuestion();
   }
 }
@@ -166,19 +181,19 @@ function showResults() {
 
   if (pct === 1) {
     emoji = '🏆'; title = 'Perfect Score!';
-    msg = 'You got every single one right. You\'re a subtraction superstar!';
+    msg = "You got every single one right. You're a subtraction superstar!";
   } else if (pct >= 0.8) {
     emoji = '🌟'; title = 'Amazing Job!';
-    msg = 'You\'re so close to perfect — keep practising!';
+    msg = "You're so close to perfect — keep practising!";
   } else if (pct >= 0.6) {
     emoji = '🌸'; title = 'Great Work!';
-    msg = 'You\'re getting stronger every round. Keep it up!';
+    msg = "You're getting stronger every round. Keep it up!";
   } else if (pct >= 0.4) {
     emoji = '💪'; title = 'Good Effort!';
-    msg = 'Practice makes perfect — try again and you\'ll do even better!';
+    msg = "Practice makes perfect — try again and you'll do even better!";
   } else {
     emoji = '🌈'; title = 'Keep Practising!';
-    msg = 'Every mistake is a step forward. Give it another go!';
+    msg = "Every mistake is a step forward. Give it another go!";
   }
 
   document.getElementById('result-emoji').textContent = emoji;
@@ -187,18 +202,13 @@ function showResults() {
   document.getElementById('final-score').textContent  = score;
 }
 
-function playAgain() {
-  startGame(currentDifficulty);
-}
-
-function goHome() {
-  showScreen('screen-welcome');
-}
+function playAgain() { startGame(currentDifficulty); }
+function goHome()    { showScreen('screen-welcome'); }
 
 // ── Utility ──────────────────────────────────────────────────────────────────
 function triggerShake(el) {
   el.classList.remove('shake');
-  void el.offsetWidth;    // reflow to restart animation
+  void el.offsetWidth;
   el.classList.add('shake');
   el.addEventListener('animationend', () => el.classList.remove('shake'), { once: true });
 }

@@ -43,16 +43,16 @@ body {
 .difficulty-grid {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
 
 .diff-btn {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 20px;
+  gap: 12px;
+  padding: 13px 18px;
   border: none;
-  border-radius: 18px;
+  border-radius: 16px;
   cursor: pointer;
   font-family: inherit;
   text-align: left;
@@ -62,13 +62,23 @@ body {
 .diff-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
 .diff-btn:active { transform: translateY(0); }
 
-.diff-btn.easy   { background: linear-gradient(90deg, #fce4ec, #f48fb1); }
-.diff-btn.medium { background: linear-gradient(90deg, #f3e5f5, #ce93d8); }
-.diff-btn.hard   { background: linear-gradient(90deg, #ede7f6, #9575cd); }
+.diff-btn.lvl1 { background: linear-gradient(90deg, #fff9c4, #fff176); }
+.diff-btn.lvl2 { background: linear-gradient(90deg, #fce4ec, #f48fb1); }
+.diff-btn.lvl3 { background: linear-gradient(90deg, #f3e5f5, #ce93d8); }
+.diff-btn.lvl4 { background: linear-gradient(90deg, #e3f2fd, #64b5f6); }
+.diff-btn.lvl5 { background: linear-gradient(90deg, #ede7f6, #9575cd); }
 
-.diff-icon { font-size: 2rem; flex-shrink: 0; }
-.diff-name { font-size: 1.2rem; font-weight: 700; color: #4a148c; flex: 1; }
-.diff-desc { font-size: 0.82rem; color: #6a1b9a; white-space: nowrap; }
+.diff-icon { font-size: 1.8rem; flex-shrink: 0; }
+
+.diff-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.diff-name { font-size: 1.05rem; font-weight: 700; color: #4a148c; line-height: 1.2; }
+.diff-desc { font-size: 0.78rem; color: #6a1b9a; }
 
 /* ── Game Screen ── */
 .game-card { padding: 24px 24px 28px; }
