@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Long Division Quest 🧮</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Screen 1: Mode Picker -->
+  <div id="screen-welcome" class="screen active">
+    <div class="card">
+      <div class="logo">🧮 Long Division Quest</div>
+      <p class="subtitle">Choose how you want to practice!</p>
+      <div class="mode-grid">
+        <button class="mode-btn mode1" onclick="selectMode('missing')">
+          <span class="mode-icon">🔍</span>
+          <span class="mode-info">
+            <span class="mode-name">Find the Missing Number</span>
+            <span class="mode-desc">A problem is fully worked out, but one number is hidden. Can you figure it out?</span>
+          </span>
+        </button>
+        <button class="mode-btn mode2" onclick="selectMode('guided')">
+          <span class="mode-icon">🧭</span>
+          <span class="mode-info">
+            <span class="mode-name">Step-by-Step Guide</span>
+            <span class="mode-desc">Divide, multiply, subtract, bring down — one highlighted step at a time.</span>
+          </span>
+        </button>
+        <button class="mode-btn mode3" onclick="selectMode('practice')">
+          <span class="mode-icon">✏️</span>
+          <span class="mode-info">
+            <span class="mode-name">Practice Long Division</span>
+            <span class="mode-desc">Work it out on your own and enter the final answer.</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 2: Difficulty Picker -->
+  <div id="screen-difficulty" class="screen">
+    <div class="card">
+      <button class="back-btn top-back" onclick="goHome()">← Modes</button>
+      <div class="logo small" id="difficulty-title">Choose your level</div>
+      <p class="subtitle">How tough should the problems be?</p>
+      <div class="difficulty-grid">
+        <button class="diff-btn lvl1" onclick="startGame('easy')">
+          <span class="diff-icon">🌱</span>
+          <span class="diff-info">
+            <span class="diff-name">Easy</span>
+            <span class="diff-desc">1-digit divisor, 2-digit dividend</span>
+          </span>
+        </button>
+        <button class="diff-btn lvl2" onclick="startGame('medium')">
+          <span class="diff-icon">🌿</span>
+          <span class="diff-info">
+            <span class="diff-name">Medium</span>
+            <span class="diff-desc">1-digit divisor, 3-digit dividend</span>
+          </span>
+        </button>
+        <button class="diff-btn lvl3" onclick="startGame('hard')">
+          <span class="diff-icon">🌳</span>
+          <span class="diff-info">
+            <span class="diff-name">Hard</span>
+            <span class="diff-desc">Up to 2-digit divisor, 3–4 digits</span>
+          </span>
+        </button>
+        <button class="diff-btn lvl4" onclick="startGame('expert')">
+          <span class="diff-icon">🏔️</span>
+          <span class="diff-info">
+            <span class="diff-name">Expert</span>
+            <span class="diff-desc">2-digit divisor, 4–5 digit dividend</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 3: Game -->
+  <div id="screen-game" class="screen">
+    <div class="card game-card">
+      <div class="game-header">
+        <button class="back-btn" onclick="goHome()">← Home</button>
+        <div class="score-box">
+          <span id="score-display">⭐ 0</span>
+          <span id="streak-display" class="streak hidden">🔥 0</span>
+        </div>
+        <div class="progress-wrap">
+          <div id="progress-bar"></div>
+        </div>
+      </div>
+
+      <div class="question-count">Problem <span id="q-num">1</span> of <span id="q-total">10</span></div>
+
+      <div id="tableau" class="tableau"></div>
+
+      <div id="prompt-box" class="prompt-box">
+        <p id="prompt-text" class="prompt-text"></p>
+        <div class="answer-row">
+          <input
+            id="answer-input"
+            type="text"
+            inputmode="numeric"
+            placeholder="?"
+            autocomplete="off"
+            onkeydown="handleKey(event)"
+          />
+        </div>
+        <button class="submit-btn" id="submit-btn">Check ✓</button>
+      </div>
+
+      <div id="feedback" class="feedback hidden"></div>
+    </div>
+  </div>
+
+  <!-- Screen 4: Results -->
+  <div id="screen-results" class="screen">
+    <div class="card results-card">
+      <div id="result-emoji" class="result-emoji"></div>
+      <h2 id="result-title" class="result-title"></h2>
+      <p id="result-msg" class="result-msg"></p>
+      <div class="result-score">
+        <span id="final-score"></span>
+        <span class="out-of" id="final-out-of"></span>
+      </div>
+      <div class="result-actions">
+        <button class="play-again-btn" onclick="playAgain()">Play Again 🔄</button>
+        <button class="home-btn" onclick="goHome()">Change Mode 🏠</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
