@@ -52,6 +52,20 @@ body {
   gap: 12px;
 }
 
+.app-switch {
+  display: block;
+  margin-top: 22px;
+  padding: 12px;
+  border-radius: 14px;
+  background: #e8eaf6;
+  color: #283593;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.15s;
+}
+.app-switch:hover { background: #c5cae9; transform: translateY(-2px); }
+
 .mode-btn, .diff-btn {
   display: flex;
   align-items: center;
